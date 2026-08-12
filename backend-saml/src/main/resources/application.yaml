@@ -1,0 +1,18 @@
+server:
+  port: 8085
+spring:
+  application:
+    name: backend-saml
+
+  security:
+    saml2:
+      relyingparty:
+        registration:
+          auth0:
+            entity-id: "{baseUrl}/saml2/service-provider-metadata/{registrationId}"
+            signing:
+              credentials:
+                - private-key-location: classpath:saml-private-key.pem
+                  certificate-location: classpath:saml-certificate.pem
+            assertingparty:
+              metadata-uri: classpath:saml-metadata.xml

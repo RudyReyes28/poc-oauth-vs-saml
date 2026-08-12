@@ -1,0 +1,25 @@
+server:
+  port: 8084
+
+spring:
+  config:
+    import: optional:classpath:application-secrets.yml
+
+  application:
+    name: backend-oauth
+
+  datasource:
+    url: jdbc:h2:file:./data/oauth-db
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console

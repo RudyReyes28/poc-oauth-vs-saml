@@ -1,0 +1,5 @@
+# Secrets y llaves privadas
+**/saml-private-key.pem
+**/*.p12
+**/*.pkcs12
+application-secrets.yml

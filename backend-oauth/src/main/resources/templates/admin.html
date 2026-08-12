@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Administración</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 font-sans antialiased min-h-screen py-10 px-4">
+
+<div class="max-w-6xl mx-auto">
+    <div class="flex justify-between items-center mb-8">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900">Panel de Administración</h1>
+            <p class="text-gray-500 mt-1">Gestión de usuarios y roles del sistema</p>
+        </div>
+        <a href="/" class="flex items-center text-indigo-600 hover:text-indigo-800 font-medium transition">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Volver al inicio
+        </a>
+    </div>
+
+    <div class="bg-white shadow-md rounded-xl overflow-hidden border border-gray-200">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+            <tr>
+                <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Email</th>
+                <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Proveedor</th>
+                <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Rol actual</th>
+                <th scope="col" class="px-6 py-4 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Acciones</th>
+            </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+            <tr th:each="user : ${users}" class="hover:bg-gray-50 transition">
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm font-medium text-gray-900" th:text="${user.email}"></div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800" th:text="${user.provider}"></span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <span th:classappend="${user.role.name() == 'ADMIN'} ? 'bg-purple-100 text-purple-800 border-purple-200' : 'bg-gray-100 text-gray-800 border-gray-200'" class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full border" th:text="${user.role}"></span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <form th:action="@{/admin/{id}/toggle-role(id=${user.id})}" method="post" class="inline">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                        <button type="submit"
+                                th:classappend="${user.role.name() == 'ADMIN'} ? 'text-red-600 hover:text-red-900 bg-red-50 hover:bg-red-100' : 'text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100'"
+                                class="px-4 py-2 rounded-md transition font-semibold"
+                                th:text="${user.role.name() == 'ADMIN'} ? 'Quitar privilegios' : 'Hacer Administrador'">
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
